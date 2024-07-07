@@ -4,15 +4,15 @@ from models import Author, Book
 from schemas import AuthorCreate, BookCreate
 
 
-def get_all_authors(db: Session):
+def get_all_authors(db: Session) -> list[Author]:
     return db.query(Author).all()
 
 
-def get_author_by_name(db: Session, name: str) -> Author:
+def get_author_by_name(db: Session, name: str) -> Author | None:
     return db.query(Author).filter(Author.name == name).first()
 
 
-def get_author_by_id(db: Session, author_id: int) -> Author:
+def get_author_by_id(db: Session, author_id: int) -> Author | None:
     return db.query(Author).filter(Author.id == author_id).first()
 
 
@@ -27,7 +27,7 @@ def create_author(db: Session, author: AuthorCreate) -> Author:
     return db_author
 
 
-def get_all_books(db: Session, author_id: int | None = None):
+def get_all_books(db: Session, author_id: int | None = None) -> list[Book]:
     queryset = db.query(Book)
     if author_id:
         queryset = queryset.filter(Book.author_id == author_id)
